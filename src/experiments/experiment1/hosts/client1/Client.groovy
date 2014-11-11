@@ -107,12 +107,6 @@ Host: ${config.serverName}
      * Verwendet das TCP-Protokoll.
      */
 
-    private String resovleIpAddr(String addr){
-        Utils.writeLog("Client", "client", "trying to resolve the addr: ${addr}", 1)
-        stack.udpSend(dstIpAddr: nameServerIpAddr, dstPort: nameServerPort,
-                srcPort: ownPort, sdu: addr)
-    }
-
     void client() {
 
         // Empfangene Daten
@@ -121,7 +115,7 @@ Host: ${config.serverName}
         // ------------------------------------------------------------
 
         // IPv4-Adresse und Portnummer des HTTP-Dienstes
-        serverIpAddr = config.serverIpAddr
+       // serverIpAddr = config.serverIpAddr
         serverPort = config.serverPort
 
         nameServerIpAddr = config.nameServerIpAddr
@@ -134,20 +128,40 @@ Host: ${config.serverName}
         stack = new Stack()
         stack.start(config)
 
+        // dummies
+        String d1, d2
+
         // ------------------------------------------------------------
 
         Utils.writeLog("Client", "client", "startet", 1)
 
         // ------------------------------------------------------------
 
-
-        Utils.writeLog("Client", "client", "sendet: ${request}", 1)
-
         // Datenempfang vorbereiten
         data = ""
         state = WAIT_LENGTH
 
+        // ------------- Resolve host name to IP address ------------
+
+        Utils.writeLog("Client", "client", "request to resolve the host $config.serverName", 1)
+
+        stack.udpSend(dstIpAddr: nameServerIpAddr, dstPort: nameServerPort,
+                srcPort: ownPort, sdu: config.serverName)
+
+        (d1, d2, rdata) = stack.udpReceive()
+
+        matcher = (rdata =~ /ANSWER SECTION:(.*)/)
+
+        serverIpAddr = (matcher[0] as List<String>)[1]
+    printf("\n****************************************************\n")
+        printf(serverIpAddr)
+        printf("\n****************************************************\n")
+        if (!Utils.isIp(serverIpAddr)) Utils.writeLog("Client", "client", "DNS could not find the ip for the  host: $config.serverName", 1)
+        // ----------------------------------------------------------
+
         // HTTP-GET-Request absenden
+        Utils.writeLog("Client", "client", "sendet: ${request} to $serverIpAddr", 1)
+
         stack.udpSend(dstIpAddr: serverIpAddr, dstPort: serverPort,
                 srcPort: ownPort, sdu: request)
 
@@ -155,8 +169,7 @@ Host: ${config.serverName}
         while (curBodyLength < bodyLength) {
 
             // Auf Empfang warten
-            String d1, d2
-            // dummies
+
             (d1, d2, rdata) = stack.udpReceive()
 
             Utils.writeLog("Client", "client", "empfängt: $rdata", 1)

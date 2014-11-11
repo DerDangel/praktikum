@@ -4,7 +4,6 @@ package experiments.experiment1.hosts.server1
 
 import com.sun.org.apache.xml.internal.resolver.helpers.FileURL
 import common.utils.Utils
-import experiments.experiment1.links.Hub1
 import experiments.experiment1.stack.Stack
 
 import java.nio.file.Path
@@ -20,8 +19,6 @@ import java.util.regex.Matcher
  */
 class Server {
 
-
-    int id = Hub.
     //========================================================================================================
     // Vereinbarungen ANFANG
     //========================================================================================================
@@ -107,7 +104,6 @@ Das Objekt ${->name} wurde angefragt!
         stack = new Stack()
         stack.start(config)
         ownPort = config.ownPort
-        ownIp = config.ow
 
         //------------------------------------------------
 
@@ -120,7 +116,6 @@ Das Objekt ${->name} wurde angefragt!
 
             // Auf Empfang warten
             (srcIpAddr, srcPort, data) = stack.udpReceive()
-            if(srcIpAddr.equalsIgnoreCase())
 
             Utils.writeLog("Server", "server", "empfängt: $data", 1)
 
@@ -129,16 +124,14 @@ Das Objekt ${->name} wurde angefragt!
                 break
 
             // Parsen des HTTP-Kommandos
-            matcher = (data =~ /GET\s*\/(.*?)\s*HTTP\/1\.1\s*Host:\s*www\.(.*?)\.\s*/)
+            matcher = (data =~ /GET\s*\/(.*?)\s*HTTP\/1\.1/)
             name = ""
-            String host = ""
+
             // Wurde das Header-Feld gefunden?
             if (matcher) {
                 // Ja
                 // Name des zu liefernden Objekts
                 name = (matcher[0] as List<String>)[1]
-                host = (matcher[0] as List<String>)[2]
-                printf("requesting the file $name from the host $host\n")
                 int sending = 1
                 while(sending)
                 {

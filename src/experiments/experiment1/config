@@ -36,7 +36,7 @@ environments {
     LOCAL {
         client {
             // IP-Adresse des Servers
-            serverIpAddr = "192.168.1.1"
+           // serverIpAddr = "192.168.1.1"
 
             // Name des Servers
             serverName = "meinhttpserver"
@@ -100,7 +100,7 @@ environments {
         //=============================================================================================
 
         server {
-            ownPort = 0
+            ownPort = 5100
             defaultRouter = "0.0.0.0"
             nameServer = "192.168.1.0"
 
@@ -110,7 +110,7 @@ environments {
                  link: experiments.experiment1.links.Hub1.id,
                  connector: experiments.experiment1.links.Hub1.HUB_PORT_2,
                  macAddr: "00:00:00:00:00:00",
-                 ipAddr: "0.0.0.0"
+                 ipAddr: "192.168.1.1"
                 ]
             ]
 
@@ -128,11 +128,11 @@ environments {
 
             networkConnectors = [
                 [virtual: true,
-                 lpName: "",
+                 lpName: "lp1",
                  link: experiments.experiment1.links.Hub1.id,
                  connector: experiments.experiment1.links.Hub1.HUB_PORT_3,
                  macAddr: "00:00:00:00:00:00",
-                 ipAddr: "0.0.0.0"
+                 ipAddr: "192.168.1.0"
                 ]
             ]
 

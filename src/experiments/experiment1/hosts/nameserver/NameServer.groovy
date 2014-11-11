@@ -22,10 +22,11 @@ class NameServer {
 
     /** Tabelle zur Umsetzung von Namen in IP-Adressen */
     Map<String, String> nameTable = [
-            "meinhttpserver": "0.0.0.0",
+            "meinhttpserver": "192.168.1.1",
             "alice": "0.0.0.0",
             "bob": "0.0.0.0",
     ]
+
 
     //========================================================================================================
     // Methoden ANFANG
@@ -61,6 +62,7 @@ class NameServer {
 
         Utils.writeLog("NameServer", "nameserver", "startet", 1)
 
+        String data
         String srcIpAddr
         int srcPort
 
@@ -72,8 +74,24 @@ class NameServer {
 
 
             (srcIpAddr, srcPort, data) = stack.udpReceive()
-            String resolvedIpAddr = nameTable.get(data)
-            printf(resolvedIpAddr)
+            Utils.writeLog("NameServer", "nameserver", "Reqeust to resolve ${data} was received", 1)
+            String ipAddr = nameTable.get(data)
+            if (ipAddr){
+                Utils.writeLog("NameServer", "nameserver", "Resolved into $ipAddr", 1)
+            } else {
+                Utils.writeLog("NameServer", "nameserver", "Error: Host $data was not found", 1)
+                ipAddr = "0.0.0.0"
+            }
+
+            /** Answer Format */
+
+            String ans ="ANSWER SECTION:" + ipAddr
+
+            /** End of answer Format */
+
+
+            stack.udpSend(dstIpAddr: srcIpAddr, dstPort: srcPort,
+                    srcPort: config.ownPort, sdu: ans)
 
         }
     }

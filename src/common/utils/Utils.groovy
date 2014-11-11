@@ -127,6 +127,14 @@ class Utils {
 
     //-------------------------------------------------------------------------------
 
+    public static boolean isIp(String sIp){
+        byte[] bIp = stringToIp(sIp)
+        if (bIp.length != 4) return false
+        for(int i=0; i<bIp.length;i++)
+            if ((bIp[i] > 255) || (bIp[i] < 0)) return false
+        return true
+    }
+
     /**
      * Liefert die UND-Verknuepfung einer IP-Adresse und einer Netzmaske/Präfix
      * @param ipAddr Eine IP-Adresse

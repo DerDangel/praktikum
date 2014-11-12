@@ -129,9 +129,12 @@ class Utils {
 
     public static boolean isIp(String sIp){
         byte[] bIp = stringToIp(sIp)
+
         if (bIp.length != 4) return false
-        for(int i=0; i<bIp.length;i++)
-            if ((bIp[i] > 255) || (bIp[i] < 0)) return false
+        for(int i=0; i<bIp.length;i++) {
+            short unsigned = 0xff&bIp[i]
+            if ((unsigned > 255) || (unsigned < 0)) return false
+        }
         return true
     }
 

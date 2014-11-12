@@ -153,9 +153,6 @@ Host: ${config.serverName}
         matcher = (rdata =~ /ANSWER SECTION:(.*)/)
 
         serverIpAddr = (matcher[0] as List<String>)[1]
-    printf("\n****************************************************\n")
-        printf(serverIpAddr)
-        printf("\n****************************************************\n")
         if (!Utils.isIp(serverIpAddr)) Utils.writeLog("Client", "client", "DNS could not find the ip for the  host: $config.serverName", 1)
         // ----------------------------------------------------------
 

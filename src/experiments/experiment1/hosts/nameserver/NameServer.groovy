@@ -25,68 +25,68 @@ class NameServer {
             "meinhttpserver": "192.168.1.1",
             "alice": "0.0.0.0",
             "bob": "0.0.0.0",
-    ]
+
+            ]
 
 
-    //========================================================================================================
-    // Methoden ANFANG
-    //========================================================================================================
+            //========================================================================================================
+            // Methoden ANFANG
+            //========================================================================================================
 
-    //------------------------------------------------------------------------------
-    /**
-     * Start der Anwendung
-     */
-    static void main(String[] args) {
-        // Client-Klasse instanziieren
-        NameServer application = new NameServer()
-        // und starten
-        application.nameserver()
-    }
-    //------------------------------------------------------------------------------
-
-    /**
-     * Der Namens-Dienst
-     */
-    void nameserver() {
-
-        //------------------------------------------------
-
-        // Konfiguration holen
-        config = Utils.getConfig("experiment1", "nameserver")
-
-        // ------------------------------------------------------------
-
-        // Netzwerkstack initialisieren
-        stack = new experiments.experiment1.stack.Stack()
-        stack.start(config)
-
-        Utils.writeLog("NameServer", "nameserver", "startet", 1)
-
-        String data
-        String srcIpAddr
-        int srcPort
-
-        while (run) {
-            // Hier Protokoll implementieren:
-            // auf Empfang ueber UDP warten
-            // Namen über nameTable in IP-Adresse aufloesen
-            // IP-Adresse ueber UDP zuruecksenden
-
-
-            (srcIpAddr, srcPort, data) = stack.udpReceive()
-            Utils.writeLog("NameServer", "nameserver", "Reqeust to resolve ${data} was received", 1)
-            String ipAddr = nameTable.get(data)
-            if (ipAddr){
-                Utils.writeLog("NameServer", "nameserver", "Resolved into $ipAddr", 1)
-            } else {
-                Utils.writeLog("NameServer", "nameserver", "Error: Host $data was not found", 1)
-                ipAddr = "0.0.0.0"
+            //------------------------------------------------------------------------------
+            /**
+             * Start der Anwendung
+             */
+            static void main(String[] args) {
+                // Client-Klasse instanziieren
+                NameServer application = new NameServer()
+                // und starten
+                application.nameserver()
             }
+            //------------------------------------------------------------------------------
 
-            /** Answer Format */
+            /**
+             * Der Namens-Dienst
+             */
+            void nameserver() {
 
-            String ans ="ANSWER SECTION:" + ipAddr
+                //------------------------------------------------
 
+                // Konfiguration holen
+                config = Utils.getConfig("experiment1", "nameserver")
+
+                // ------------------------------------------------------------
+
+                // Netzwerkstack initialisieren
+                stack = new experiments.experiment1.stack.Stack()
+                stack.start(config)
+
+                Utils.writeLog("NameServer", "nameserver", "startet", 1)
+
+                String data
+                String srcIpAddr
+                int srcPort
+
+                while (run) {
+                    // Hier Protokoll implementieren:
+                    // auf Empfang ueber UDP warten
+                    // Namen über nameTable in IP-Adresse aufloesen
+                    // IP-Adresse ueber UDP zuruecksenden
+
+
+                    (srcIpAddr, srcPort, data) = stack.udpReceive()
+                    Utils.writeLog("NameServer", "nameserver", "Reqeust to resolve ${data} was received", 1)
+                    String ipAddr = nameTable.get(data)
+                    if (ipAddr){
+                        Utils.writeLog("NameServer", "nameserver", "Resolved into $ipAddr", 1)
+                    } else {
+                        Utils.writeLog("NameServer", "nameserver", "Error: Host $data was not found", 1)
+                        ipAddr = "0.0.0.0"
+                    }
+
+                    /** Answer Format */
+
+                    String ans ="ANSWER SECTION:" + ipAddr
             /** End of answer Format */
 
 

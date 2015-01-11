@@ -51,7 +51,7 @@ environments {
             ownIPAddr = "192.168.1.10"
 
             // Eigene MAC-Adresse
-            ownMacAddr = "00:00:00:00:00:00"
+            ownMacAddr = "11:11:11:11:11:11"
 
             // Eigene TCP- und UDP-Portnummer
             ownPort = 5200
@@ -94,6 +94,7 @@ environments {
 
             // ARP-Tabelle
             // ["IP-Adresse": "MAC-Adresse", ...]
+            // arpTable = ["192.168.1.0":"33:33:33:33:33:33","192.168.1.1":"22:22:22:22:22:22"]
             arpTable = [:]
         }
 
@@ -109,7 +110,7 @@ environments {
                  lpName: "lp1",
                  link: experiments.experiment1.links.Hub1.id,
                  connector: experiments.experiment1.links.Hub1.HUB_PORT_2,
-                 macAddr: "00:00:00:00:00:00",
+                 macAddr: "22:22:22:22:22:22",
                  ipAddr: "192.168.1.1"
                 ]
             ]
@@ -131,7 +132,7 @@ environments {
                  lpName: "lp1",
                  link: experiments.experiment1.links.Hub1.id,
                  connector: experiments.experiment1.links.Hub1.HUB_PORT_3,
-                 macAddr: "00:00:00:00:00:00",
+                 macAddr: "33:33:33:33:33:33",
                  ipAddr: "192.168.1.0"
                 ]
             ]
@@ -145,23 +146,23 @@ environments {
 
         router1 {
             // Eigene TCP- und UDP-Portnummer
-            ownPort = 0
+            ownPort = 5100
 
             networkConnectors = [
                 [virtual: true,
                  lpName: "lp1",
-                 link: 0,
-                 connector: 0,
-                 macAddr: "00:00:00:00:00:00",
-                 ipAddr: "0.0.0.0"
+                 link: experiments.experiment1.links.Hub1.id,
+                 connector: experiments.experiment1.links.Hub1.HUB_PORT_4,
+                 macAddr: "12:12:12:12:12:12",
+                 ipAddr: "192.168.1.38"
                 ],
 
                 [virtual: true,
                  lpName: "lp2",
-                 link: 0,
-                 connector: 0,
-                 macAddr: "00:00:00:00:00:00",
-                 ipAddr: "0.0.0.0"
+                 link: experiments.experiment1.links.Hub2.id,
+                 connector: experiments.experiment1.links.Hub2.HUB_PORT_1,
+                 macAddr: "21:21:21:21:21:21",
+                 ipAddr: "192.168.1.37"
                 ],
 
             ]
